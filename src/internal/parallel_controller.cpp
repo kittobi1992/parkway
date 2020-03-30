@@ -185,7 +185,7 @@ void controller::store_best_partition(int numV, const dynamic_array<int> array,
     ij += receive_lens_[i];
   }
 
-  receive_array_.reserve(ij);
+  receive_array_.resize(ij);
   totToRecv = ij;
 
   MPI_Alltoallv(send_array_.data(), send_lens_.data(),
