@@ -173,7 +173,7 @@ void options::add_serial_partitioning_options() {
 
   recursive_bisection_.add_options()
     ("recursive-bisection.v-cycles",
-     po::value<std::string>()->default_value("final-only"),
+     po::value<std::string>()->default_value("off"),
      "V-cycle setting. Options:\n"
      "  final-only: only use V-cycle refinement in the final bisection,\n"
      "  all: use V-cycle refinement in each recursive bisection,\n"
@@ -224,7 +224,7 @@ void options::add_serial_partitioning_options() {
 void options::add_refinement_options() {
   refinement_.add_options()
     ("refinement.v-cycles",
-     po::value<std::string>()->default_value("final-only"),
+     po::value<std::string>()->default_value("off"),
      "V-cycle setting. Options:\n"
      "  final-only: \tonly iterate from the final partition,\n"
      "  best: \tonly iterate from the best intermediate partition at the end of "
