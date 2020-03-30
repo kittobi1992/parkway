@@ -11,4 +11,5 @@ add_executable(${DRIVER_BIN} ${DRIVER_SRCS} ${DRIVER_HEADERS})
 set_property(TARGET ${DRIVER_BIN} PROPERTY CXX_STANDARD 11)
 set_property(TARGET ${DRIVER_BIN} PROPERTY CXX_STANDARD_REQUIRED ON)
 
-target_link_libraries(${DRIVER_BIN} ${PROJECT_LIBRARIES})
+find_library(HMetis libhmetis.a PATHS ${CMAKE_BINARY_DIR}/lib)
+target_link_libraries(${DRIVER_BIN} ${PROJECT_LIBRARIES} ${HMetis})

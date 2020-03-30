@@ -203,7 +203,7 @@ serial::controller *build_sequential_controller(
     // ###
     double kWayLimit = DEF_SEQ_KWAY_LIM;
 
-    GreedyKwayRefiner *k = new GreedyKwayRefiner(-1, num_parts, -1, kWayLimit);
+    serial::greedy_k_way_refiner *k = new serial::greedy_k_way_refiner(-1, num_parts, -1, kWayLimit);
 
     // ###
     // build the seq controller
@@ -211,23 +211,23 @@ serial::controller *build_sequential_controller(
     dynamic_array<int> seq_options(12);
 
     seq_options[0] = USER_DEFINED;
-    seq_options[2] = options[19];
+    seq_options[2] = options.get<int>("hmetis.coarsening");
     seq_options[3] = SOED;
-    seq_options[4] = options[20];
+    seq_options[4] = options.get<int>("hmetis.refinement");
     // seq_options[5] not used
     // seq_options[6] not used
     // seq_options[7] random seed;
     seq_options[8] = NO_DEBUG;
 
-    double paraKeepT = DEF_PARA_KEEP_THRESHOLD;
+    double paraKeepT = DEF_KEEP_THRESHOLD;
+    int num_proc = options.number_of_processors();
+    int num_parts = options.get<int>("number-of-parts");
+    seqC = new KHMetisController(k, rank, num_proc, num_parts,
+                                 seq_options.data());
 
-    seqC = new KHMetisController(k, my_rank, num_proc, num_parts,
-                                 seq_options.getArray();
-
-    seqC->setAcceptProp(paraKeepT);
-    seqC->setNumSeqRuns(numSeqRuns);
-    seqC->setDispOption();
-    seqC->setKwayConstraint(constraint);
+    seqC->set_accept_proportion(paraKeepT);
+    seqC->set_number_of_runs(numSeqRuns);
+    seqC->set_k_way_constraint(options.get<double>("balance-constraint"));
   }
 #endif
 #ifdef PARKWAY_LINK_PATOH

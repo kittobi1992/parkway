@@ -21,12 +21,12 @@ void HMETIS_PartKway(int nv, int nh, int *vwt, int *hptr, int *hv, int *hwt,
                      int p, int ub, int *opt, int *pvector, int *cut);
 }
 
-#include "SeqController.hpp"
-#include "GreedyKwayRefiner.hpp"
+#include "internal/serial_controller.hpp"
+#include "refiners/serial/greedy_k_way_refiner.hpp"
 
 using namespace std;
 
-class KHMetisController : public SeqController {
+class KHMetisController : public parkway::serial::controller {
 protected:
   int lenOfOptions;
   int maxPartWt;
@@ -35,15 +35,16 @@ protected:
 
   dynamic_array<int> khMetisOptions;
 
-  GreedyKwayRefiner *kWayRefiner;
+  parkway::serial::greedy_k_way_refiner *kWayRefiner;
 
 public:
-  KHMetisController(GreedyKwayRefiner *k, int rank, int nProcs, int nParts,
-                    const int *options, ostream &out);
+  KHMetisController(parkway::serial::greedy_k_way_refiner  *k,
+                    int rank, int nProcs, int nParts,
+                    const int *options);
   ~KHMetisController();
 
-  void dispSeqControllerOptions() const;
-  void runSeqPartitioner(ParaHypergraph &h, MPI_Comm comm);
+  void display_options() const;
+  void run(parkway::parallel::hypergraph &h, MPI_Comm comm);
 };
 
 #endif

@@ -16,7 +16,8 @@
 // 7. Test para v-cycles
 // ###
 
-//#  define LINK_HMETIS
+#define LINK_HMETIS
+#define PARKWAY_LINK_HMETIS
 //#  define LINK_PATOH
 //#  define DEBUG_ALL
 #define KEY_UINT
