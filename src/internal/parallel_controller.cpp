@@ -224,15 +224,15 @@ void controller::partition_to_file(const char *filename, MPI_Comm comm) const {
 
   for (int i = 0; i < processors_; ++i) {
     if (rank_ == i) {
-      out.open(filename, std::ofstream::out | std::ofstream::app |
-               std::ofstream::binary);
+      out.open(filename, std::ofstream::out | std::ofstream::app);
 
       if (!out.is_open()) {
         error_on_processor("p[%d] cannot open %s\n", rank_, filename);
-      } else
-        out.write((char *)(best_partition_.data()),
-                  sizeof(int) * number_of_orig_local_vertices_);
-
+      } else {
+        for ( int u = 0; u < number_of_orig_local_vertices_; ++u ) {
+          out << best_partition_[u] << std::endl;
+        }
+      }
       out.close();
     }
     MPI_Barrier(comm);
