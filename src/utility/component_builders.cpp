@@ -361,14 +361,9 @@ void check_parts_and_processors(const parkway::options &options, MPI_Comm comm) 
             "processors when using parallel V-Cycling - abort\n");
       MPI_Abort(comm, 0);
     }
-  } else {
-    if (number_of_processors < 2) {
-      error("number of processors must be greater than one - abort\n");
-      MPI_Abort(comm, 0);
-    } else if (number_of_parts < 2) {
-      error("number of parts must be greater than one - abort\n");
-      MPI_Abort(comm, 0);
-    }
+  } else if (number_of_parts < 2) {
+    error("number of parts must be greater than one - abort\n");
+    MPI_Abort(comm, 0);
   }
 }
 
