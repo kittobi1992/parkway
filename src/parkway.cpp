@@ -122,7 +122,7 @@ int k_way_partition(const parkway::options &options, MPI_Comm comm) {
 
   if (options.get<bool>("write-partitions-to-file")) {
     char part_file[512];
-    sprintf(part_file, "%s.part.%d", file_name, num_parts);
+    sprintf(part_file, "%s.part.%d.%d", file_name, num_parts, options.get<int>("sprng-seed"));
     controller->partition_to_file(part_file, comm);
   }
 
